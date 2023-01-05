@@ -4,17 +4,13 @@
 	<button class="btn dropdown-toggle"
 	        type="button"
 	        data-bs-toggle="dropdown"
-	        aria-expanded="false"
-	        @onchange="OnChange">
-		<img class="flag-icon" src="/images/gb.svg" alt="GB" />
-		GB
+	        aria-expanded="false">
+		<img class="flag-icon" src="/images/@SelectedCountrySvg" alt="GB" />
+		@SelectedCountryCode
 	</button>
 	<ul class="dropdown-menu dropdown-menu-dark"
-	    aria-labelledby="navbarDropdownLangLink"
-	    @onchange="OnChange"
-	    @onclick="OnClick">
-		<li @onselect="OnSelect" 
-		    @onclick="OnClickItem">
+	    aria-labelledby="navbarDropdownLangLink">
+		<li @onclick="@(e => OnClickItem(e,@CountryCodeUk))">
 			<a class="dropdown-item" href="#">
 				<div class="container text-center">
 					<div class="row">
@@ -28,7 +24,7 @@
 				</div>
 			</a>
 		</li>
-		<li>
+		<li @onclick="@(e => OnClickItem(e,CountryCodeGermany))">
 			<a class="dropdown-item" href="#">
 				<div class="container text-center">
 					<div class="row">
@@ -42,7 +38,7 @@
 				</div>
 			</a>
 		</li>
-		<li>
+		<li @onclick="@(e => OnClickItem(e,CountryCodeItaly))">
 			<a class="dropdown-item" href="#">
 				<div class="container text-center">
 					<div class="row">
@@ -58,9 +54,3 @@
 		</li>
 	</ul>
 </div>
-
-@code {
-	    //private const string CountryCodeUk = "GB";
-	    //private const string CountryCodeGermany = "DE";
-	    //private const string CountryCodeItaly = "IT";
-}

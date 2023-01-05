@@ -6,29 +6,30 @@ namespace Websites.Razor.ClassLibrary.Components
 	public class LanguageSelectorBase: ComponentBase
 	{
 		protected string SelectedCountryCode = "GB";
+		protected string SelectedCountrySvg => $"{SelectedCountryCode.ToLower()}.svg";
 
 		protected const string CountryCodeUk = "GB";
 		protected const string CountryCodeGermany = "DE";
 		protected const string CountryCodeItaly = "IT";
 
-		protected void OnChange(ChangeEventArgs e)
+		protected void OnClickItem(
+			MouseEventArgs e, 
+			string countryCode)
 		{
-
-		}
-
-		protected void OnClick(MouseEventArgs e)
-		{
-
-		}
-
-		protected void OnSelect(EventArgs e)
-		{
-
-		}
-
-		protected void OnClickItem(MouseEventArgs e)
-		{
-
+			switch (countryCode)
+			{
+				case CountryCodeUk: 
+					SelectedCountryCode = CountryCodeUk;
+					break;
+				case CountryCodeGermany:
+					SelectedCountryCode = CountryCodeGermany;
+					break;
+				case CountryCodeItaly:
+					SelectedCountryCode = CountryCodeItaly;
+					break;
+				default:
+					break;
+			}
 		}
 	}
 }
