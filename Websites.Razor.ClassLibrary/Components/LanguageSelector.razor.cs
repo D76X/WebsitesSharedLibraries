@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Components.Web;
 
 namespace Websites.Razor.ClassLibrary.Components
 {
+	// https://stackoverflow.com/questions/5427414/editing-a-git-submodule
 	public class LanguageSelectorBase: ComponentBase
 	{
 		protected string SelectedCountryCode = "GB";
