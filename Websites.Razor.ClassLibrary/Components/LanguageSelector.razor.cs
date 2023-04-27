@@ -13,7 +13,13 @@ namespace Websites.Razor.ClassLibrary.Components
 		protected const string CountryCodeGermany = "DE";
 		protected const string CountryCodeItaly = "IT";
 
-		protected void OnClickItem(
+		[Inject]
+		public NavigationManager NavigationManager { get; set; }
+
+		[Parameter] 
+		public EventCallback<string> OnLanguageSelected { get; set; }
+
+		protected async Task OnClickItem(
 			MouseEventArgs e, 
 			string countryCode)
 		{
@@ -31,6 +37,36 @@ namespace Websites.Razor.ClassLibrary.Components
 				default:
 					break;
 			}
+
+			var selectedLanguage = countryCode == CountryCodeUk ? "en" : SelectedCountryCode.ToLower();
+			await OnLanguageSelected.InvokeAsync(selectedLanguage);
+		}
+
+		protected override void OnInitialized()
+		{
+			base.OnInitialized();
+
+			var currentUri = NavigationManager.Uri.Trim();
+
+			if (currentUri.EndsWith($"/en"))
+			{
+				SelectedCountryCode = CountryCodeUk;
+				return;
+			}
+
+			if (currentUri.EndsWith($"/de"))
+			{
+				SelectedCountryCode = CountryCodeGermany;
+				return;
+			}
+
+			if (currentUri.EndsWith($"/it"))
+			{
+				SelectedCountryCode = CountryCodeItaly;
+				return;
+			}
+
+			SelectedCountryCode = CountryCodeUk;
 		}
 	}
 }
