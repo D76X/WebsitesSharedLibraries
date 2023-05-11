@@ -48,19 +48,19 @@ namespace Websites.Razor.ClassLibrary.Components
 
 			var currentUri = NavigationManager.Uri.Trim();
 
-			if (currentUri.EndsWith($"/en"))
+			if (currentUri.EndsWith("/en") || currentUri.Contains("/en/"))
 			{
 				SelectedCountryCode = CountryCodeUk;
 				return;
 			}
 
-			if (currentUri.EndsWith($"/de"))
+			if (currentUri.EndsWith("/de") || currentUri.Contains("/de/"))
 			{
 				SelectedCountryCode = CountryCodeGermany;
 				return;
 			}
 
-			if (currentUri.EndsWith($"/it"))
+			if (currentUri.EndsWith("/it") || currentUri.Contains("/it/"))
 			{
 				SelectedCountryCode = CountryCodeItaly;
 				return;
