@@ -6,13 +6,13 @@ namespace Websites.Razor.ClassLibrary.Components
 	// https://stackoverflow.com/questions/5427414/editing-a-git-submodule
 	public class LanguageSelectorBase: ComponentBase
 	{
-		protected string SelectedCountryCode = "GB";
-		protected string SelectedCountrySvg => $"{SelectedCountryCode.ToLower()}.svg";
-
 		protected const string CountryCodeUk = "GB";
 		protected const string CountryCodeGermany = "DE";
 		protected const string CountryCodeItaly = "IT";
-
+		
+		protected string SelectedCountryCode = CountryCodeUk;
+		protected string SelectedCountrySvg => $"{SelectedCountryCode.ToLower()}.svg";
+		
 		[Inject]
 		public NavigationManager NavigationManager { get; set; }
 
