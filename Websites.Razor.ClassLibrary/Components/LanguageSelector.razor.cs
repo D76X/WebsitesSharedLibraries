@@ -6,12 +6,18 @@ namespace Websites.Razor.ClassLibrary.Components
 	// https://stackoverflow.com/questions/5427414/editing-a-git-submodule
 	public class LanguageSelectorBase: ComponentBase
 	{
-		protected const string CountryCodeUk = "GB";
-		protected const string CountryCodeGermany = "DE";
-		protected const string CountryCodeItaly = "IT";
+		protected const string CountryCodeUk = @"GB";
+		protected const string CountryCodeGermany = @"DE";
+		protected const string CountryCodeItaly = @"IT";
+
+        public static string LanguageEn = @"en";
+        public static string LanguageDe = @"de";
+        public static string LanguageIt = @"it";
+
+        public static string SelectedCountryCode = CountryCodeUk;
+        public static string SelectedLanguage = LanguageEn;
 		
-		protected string SelectedCountryCode = CountryCodeUk;
-		protected string SelectedCountrySvg => $"{SelectedCountryCode.ToLower()}.svg";
+        protected string SelectedCountrySvg => $"{SelectedCountryCode.ToLower()}.svg";
 		
 		[Inject]
 		public NavigationManager NavigationManager { get; set; }
@@ -38,8 +44,11 @@ namespace Websites.Razor.ClassLibrary.Components
 					break;
 			}
 
-			var selectedLanguage = countryCode == CountryCodeUk ? "en" : SelectedCountryCode.ToLower();
-			await OnLanguageSelected.InvokeAsync(selectedLanguage);
+			SelectedLanguage = countryCode == CountryCodeUk ? 
+                LanguageEn : 
+                SelectedCountryCode.ToLower();
+			
+            await OnLanguageSelected.InvokeAsync(SelectedLanguage);
 		}
 
 		protected override void OnInitialized()
@@ -48,25 +57,29 @@ namespace Websites.Razor.ClassLibrary.Components
 
 			var currentUri = NavigationManager.Uri.Trim();
 
-			if (currentUri.EndsWith("/en") || currentUri.Contains("/en/"))
+			if (currentUri.EndsWith($"/{LanguageEn}") || currentUri.Contains($"/{LanguageEn}/"))
 			{
 				SelectedCountryCode = CountryCodeUk;
+                SelectedLanguage = LanguageEn;
 				return;
 			}
 
-			if (currentUri.EndsWith("/de") || currentUri.Contains("/de/"))
-			{
+            if (currentUri.EndsWith($"/{LanguageDe}") || currentUri.Contains($"/{LanguageDe}/"))
+            {
 				SelectedCountryCode = CountryCodeGermany;
-				return;
+                SelectedLanguage = LanguageDe;
+                return;
 			}
 
-			if (currentUri.EndsWith("/it") || currentUri.Contains("/it/"))
-			{
+            if (currentUri.EndsWith($"/{LanguageIt}") || currentUri.Contains($"/{LanguageIt}/"))
+            {
 				SelectedCountryCode = CountryCodeItaly;
-				return;
+                SelectedLanguage = LanguageIt;
+                return;
 			}
 
 			SelectedCountryCode = CountryCodeUk;
-		}
+            SelectedLanguage = LanguageEn;
+        }
 	}
 }
