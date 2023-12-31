@@ -10,9 +10,9 @@ namespace Websites.Razor.ClassLibrary.Components
 		protected const string CountryCodeGermany = @"DE";
 		protected const string CountryCodeItaly = @"IT";
 
-        public static string LanguageEn = @"en";
-        public static string LanguageDe = @"de";
-        public static string LanguageIt = @"it";
+        public const string LanguageEn = @"en";
+        public const string LanguageDe = @"de";
+        public const string LanguageIt = @"it";
 
         public static string SelectedCountryCode = CountryCodeUk;
         public static string SelectedLanguage = LanguageEn;
