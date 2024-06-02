@@ -1,0 +1,10 @@
+﻿@using System.Net.Mime
+@inherits CardBase
+<div class="card shadow-sm">
+    <img src=@ImageSrc alt="Bootstrap" height="225" style="padding: 0.5em">
+    <div class="card-body">
+        <h5 class="card-title text-center">@PageTitle</h5>
+        <p class="card-text text-center">@Text</p>
+        <a href="@PageRef" class="stretched-link"></a>
+    </div>
+</div>
