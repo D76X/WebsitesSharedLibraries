@@ -1,6 +1,7 @@
 ﻿@inherits SearchBoxBase
 <form class="d-flex"
-      role="search">
+      role="search"
+      onsubmit="alert('stop submit'); return false;">
     <input class="form-control me-2"
            type="search"
            placeholder="Search"
@@ -8,7 +9,8 @@
            @bind-value="@SearchTerm"
            @bind-value:event="oninput">
     <button class="btn btn-outline-success me-1"
-            type="submit">
+            type="submit"
+            @onclick="Search">
         @SearchTerm
     </button>
 </form>

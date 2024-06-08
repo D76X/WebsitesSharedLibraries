@@ -21,5 +21,12 @@ namespace Websites.Razor.ClassLibrary.Components
             get => Model!.SearchTerm;
             set => Model!.SearchTerm = value;
         }
+
+        protected void Search()
+        {
+            var results = SearchService.GetResults(SearchTerm);
+            var firstResult = results.FirstOrDefault();
+            SearchTerm = firstResult.Values.FirstOrDefault();
+        }
     }
 }

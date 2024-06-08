@@ -2,5 +2,6 @@
 
 public interface ISearchService
 {
-    IEnumerable<SearchResult> SearchResults(IEnumerable<string> searchTerms);
+    //IEnumerable<SearchResult> GetResults(IEnumerable<string> searchTerms);
+    IEnumerable<SearchResult> GetResults(string searchTerm);
 }

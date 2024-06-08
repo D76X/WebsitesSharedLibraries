@@ -2,6 +2,14 @@
 
 public class SearchResult
 {
-    public IEnumerable<string> searchTerms { get; }
-    public IEnumerable<string> Values { get; }
+    public readonly IEnumerable<string> searchTerms;
+    public readonly IEnumerable<string> Values;
+
+    public SearchResult(
+        IEnumerable<string> searchTerms, 
+        IEnumerable<string> values)
+    {
+        this.searchTerms = searchTerms;
+        Values = values;
+    }
 }
