@@ -4,6 +4,6 @@ namespace Websites.Razor.ClassLibrary.Abstractions.Services
 {
     public interface ICardCatalog
     {
-        ICardModel GetCard(string cardId, string? language);
+        ICardModel GetCardModel(string cardId, string? language);
     }
 }

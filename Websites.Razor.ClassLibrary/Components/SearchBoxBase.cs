@@ -24,9 +24,7 @@ namespace Websites.Razor.ClassLibrary.Components
 
         protected void Search()
         {
-            var results = SearchService.GetResults(SearchTerm);
-            var firstResult = results.FirstOrDefault();
-            SearchTerm = firstResult.Values.FirstOrDefault();
+            var results = SearchService.GetResult(SearchTerm);
         }
     }
 }

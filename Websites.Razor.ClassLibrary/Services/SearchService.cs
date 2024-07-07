@@ -1,40 +1,61 @@
-﻿using Websites.Razor.ClassLibrary.Abstractions.Services;
+﻿using Websites.Razor.ClassLibrary.Abstractions;
+using Websites.Razor.ClassLibrary.Abstractions.Services;
+using SearchResultClass = Websites.Razor.ClassLibrary.Abstractions.Services.SearchResult;
 
 namespace Websites.Razor.ClassLibrary.Services
 {
-    public class SearchService: ISearchService
+    public class SearchService: 
+        ISearchService
     {
-        public static string? SearchTerm = null;
+        private readonly List<ISearchable> _searchables;
 
-        private IEnumerable<SearchResult>? _searchResults;
-        
-        public event EventHandler<IEnumerable<SearchResult>>? SearchResultsChanged;
-        protected virtual void OnSearchResults(IEnumerable<SearchResult> e) => 
-            SearchResultsChanged?.Invoke(this, e);
-
-        public IEnumerable<SearchResult> SearchResults
+        public SearchService(ICardCatalog cardCatalog)
         {
-            get => _searchResults;
+            _searchResult = SearchResultClass.NullResult(
+                SearchTerm,
+                this,
+                nameof(SearchService),
+                this.GetType()); 
+            ;
+            _searchables = new List<ISearchable>();
+            if (cardCatalog is ISearchable searchable) _searchables.Add(searchable);
+        }
 
+        public string? SearchTerm { get; private set; }
+
+        private ISearchResult _searchResult;
+        public ISearchResult SearchResult
+        {
+            get => _searchResult;
             set
             {
-                _searchResults = value;
-                OnSearchResults(value);
+                _searchResult = value;
+                OnSearchResult(value);
             }
         }
+        
+        public event EventHandler<ISearchResult>? SearchResultChanged;
 
-        public IEnumerable<SearchResult> GetResults(string searchTerm)
-        {
-            var searchResults = new List<SearchResult>();
-            var searchResult = new SearchResult(new[] { searchTerm }, new[] { "found!" });
-            searchResults.Add(searchResult);
-            SearchResults = searchResults;
-            return searchResults;
-        }
+        protected virtual void OnSearchResult(ISearchResult e) =>
+            SearchResultChanged?.Invoke(this, e);
 
-        public IEnumerable<SearchResult> GetResults(IEnumerable<string> searchTerms)
+        public ISearchResult GetResult(string searchTerm)
         {
-            throw new NotImplementedException();
+            var searchResult = new SearchResult(
+                searchTerm,
+                this,
+                nameof(SearchService),
+                this.GetType());
+
+            foreach (var searchable in _searchables)
+            {
+                var result = searchable.GetResult(searchTerm);
+                searchResult.Add(result);
+            }
+
+            SearchResult = searchResult;
+
+            return searchResult;
         }
     }
 }

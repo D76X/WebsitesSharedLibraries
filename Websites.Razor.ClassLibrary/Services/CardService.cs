@@ -17,7 +17,7 @@ namespace Websites.Razor.ClassLibrary.Services
         }
 
         public ICardModel GetCard(string cardId) =>
-            _cardCatalog.GetCard(
+            _cardCatalog.GetCardModel(
                 cardId,
                 _languageService.SelectedLanguage);
 
