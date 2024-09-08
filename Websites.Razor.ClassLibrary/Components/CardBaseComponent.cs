@@ -3,7 +3,7 @@ using Websites.Razor.ClassLibrary.Abstractions.Models;
 
 namespace Websites.Razor.ClassLibrary.Components
 {
-    public class CardBase : ComponentBase
+    public class CardBaseComponent : ComponentBase
     {
         [Parameter]
         public ICardModel? Model { get; set; }

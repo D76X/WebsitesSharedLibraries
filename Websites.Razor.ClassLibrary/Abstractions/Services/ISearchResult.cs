@@ -6,7 +6,7 @@ public interface ISearchResult
     object Value { get; }
     string TypeStr { get; }
     Type Type { get; }
+    bool IsMatch { get; }
     IEnumerable<ISearchResult> SearchResults { get; }
     void Add(ISearchResult? searchResult);
-    IEnumerable<ISearchResult> Flatten();
 }

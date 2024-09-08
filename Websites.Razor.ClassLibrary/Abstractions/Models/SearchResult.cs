@@ -1,31 +1,47 @@
-﻿namespace Websites.Razor.ClassLibrary.Abstractions.Services;
+﻿using Websites.Razor.ClassLibrary.Abstractions.Services;
+
+namespace Websites.Razor.ClassLibrary.Abstractions.Models;
 
 public class NullSearchResult : SearchResult
 {
     public NullSearchResult(
-        string searchTerm, 
-        object value, 
-        string typeStr, 
-        Type type, 
-        IEnumerable<ISearchResult>? searchResults = null) 
-        : base(searchTerm, value, typeStr, type, searchResults) { }
+        string searchTerm,
+        object value,
+        string typeStr,
+        Type type,
+        IEnumerable<ISearchResult>? searchResults = null)
+        : base(searchTerm, value, typeStr, type, false, searchResults) { }
+
+}
+
+public class MatchSearchResult : SearchResult
+{
+    public MatchSearchResult(
+        string searchTerm,
+        object value,
+        string typeStr,
+        Type type,
+        IEnumerable<ISearchResult>? searchResults = null)
+        : base(searchTerm, value, typeStr, type, true, searchResults) { }
+
 }
 
 public class SearchResult : ISearchResult
 {
-    private readonly List<ISearchResult> _searchResults = new List<ISearchResult>();
+    private readonly List<ISearchResult> _searchResults = new();
 
     public string SearchTerm { get; }
     public object Value { get; }
     public string TypeStr { get; }
     public Type Type { get; }
+    public bool IsMatch { get; } = false;
     public IEnumerable<ISearchResult> SearchResults => _searchResults;
-    
+
     public static SearchResult NullResult(
         string searchTerm,
         object value,
         string typeStr,
-        Type type) => 
+        Type type) =>
         new NullSearchResult(
             searchTerm,
             value,
@@ -33,54 +49,40 @@ public class SearchResult : ISearchResult
             type,
         null);
 
+    public static SearchResult MatchResult(
+        string searchTerm,
+        object value,
+        string typeStr,
+        Type type,
+        IEnumerable<ISearchResult>? searchResults = null) =>
+        new MatchSearchResult(
+            searchTerm,
+            value,
+            typeStr,
+            type,
+            searchResults);
+
     public SearchResult(
         string searchTerm,
         object value,
         string typeStr,
         Type type,
+        bool isMatch,
         IEnumerable<ISearchResult>? searchResults = null)
     {
         SearchTerm = searchTerm;
         Value = value;
         TypeStr = typeStr;
         Type = type;
+        IsMatch = isMatch;
         searchResults?.ToList().ForEach(v => _searchResults.Add(v));
     }
 
     public void Add(ISearchResult? searchResult)
     {
-        if(searchResult == null) return;
+        if (searchResult == null) return;
         _searchResults.Add(searchResult);
     }
-
-    public IEnumerable<ISearchResult> Flatten()
-    {
-
-        var thisOne = (this is NullSearchResult)
-            ? new NullSearchResult(
-                this.SearchTerm,
-                this.Value,
-                this.TypeStr,
-                this.Type,
-                null)
-            : new SearchResult(
-                this.SearchTerm,
-                this.Value,
-                this.TypeStr,
-                this.Type,
-                null);
-
-        var results = new List<ISearchResult>(){ thisOne };
-        
-        foreach (var result in SearchResults)
-        {
-            var flattened = result.Flatten();
-            results.AddRange(flattened);
-        }
-
-        return results;
-    }
-
     public static bool operator !=(SearchResult obj1, SearchResult obj2) => !(obj1 == obj2);
     public static bool operator ==(SearchResult obj1, SearchResult obj2)
     {
@@ -99,7 +101,7 @@ public class SearchResult : ISearchResult
             return false;
         if (ReferenceEquals(this, other))
             return true;
-        
+
         return SearchTerm.Equals(other.SearchTerm)
                && Value.Equals(other.Value)
                && TypeStr.Equals(other.TypeStr)
@@ -112,9 +114,9 @@ public class SearchResult : ISearchResult
         unchecked
         {
             int hashCode = SearchTerm.GetHashCode();
-            hashCode = (hashCode * 397) ^ Value.GetHashCode();
-            hashCode = (hashCode * 397) ^ TypeStr.GetHashCode();
-            hashCode = (hashCode * 397) ^ Type.GetHashCode();
+            hashCode = hashCode * 397 ^ Value.GetHashCode();
+            hashCode = hashCode * 397 ^ TypeStr.GetHashCode();
+            hashCode = hashCode * 397 ^ Type.GetHashCode();
             return hashCode;
         }
     }

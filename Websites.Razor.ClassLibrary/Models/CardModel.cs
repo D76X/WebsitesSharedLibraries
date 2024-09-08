@@ -25,6 +25,8 @@ public class CardModel :
     public string PageTitle { get; }
     public string PageText { get; }
 
+    public ISearchable[]? Searchables => null;
+
     public ISearchResult GetResult(string searchTerm)
     {
         if (ImageSrc.Contains(searchTerm) ||
@@ -32,7 +34,7 @@ public class CardModel :
             PageTitle.Contains(searchTerm) ||
             PageText.Contains(searchTerm))
         {
-            return new SearchResult(
+            return SearchResult.MatchResult(
                 searchTerm,
                 this,
                 nameof(CardModel),

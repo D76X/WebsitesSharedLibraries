@@ -1,6 +1,7 @@
 ﻿using Websites.Razor.ClassLibrary.Abstractions;
+using Websites.Razor.ClassLibrary.Abstractions.Models;
 using Websites.Razor.ClassLibrary.Abstractions.Services;
-using SearchResultClass = Websites.Razor.ClassLibrary.Abstractions.Services.SearchResult;
+using SearchResultClass = Websites.Razor.ClassLibrary.Abstractions.Models.SearchResult;
 
 namespace Websites.Razor.ClassLibrary.Services
 {
@@ -41,11 +42,15 @@ namespace Websites.Razor.ClassLibrary.Services
 
         public ISearchResult GetResult(string searchTerm)
         {
+            // do I need this?
+            var searchResults1 = new List<ISearchResult>();
+
             var searchResult = new SearchResult(
                 searchTerm,
                 this,
                 nameof(SearchService),
-                this.GetType());
+                this.GetType(),
+                false); // can do better here!
 
             foreach (var searchable in _searchables)
             {
