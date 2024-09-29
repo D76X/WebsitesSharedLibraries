@@ -8,19 +8,37 @@ namespace Websites.Razor.ClassLibrary.Abstractions.Extensions
 
         public static IEnumerable<ISearchResult> Flatten(this ISearchResult sr)
         {
-            var thisOne = sr is NullSearchResult
-                ? new NullSearchResult(
-                    sr.SearchTerm,
-                    sr.Value,
-                    sr.TypeStr,
-                    sr.Type,
-                    null)
-                : new SearchResult(
-                    sr.SearchTerm,
-                    sr.Value,
-                    sr.TypeStr,
-                    sr.Type,
-                    true);
+            ISearchResult thisOne;
+            switch (sr)
+            {
+                case NullSearchResult t1:
+                    thisOne = new NullSearchResult(
+                        sr.SearchTerm,
+                        sr.Value,
+                        sr.TypeStr,
+                        sr.Type,
+                        null);
+                    break;
+
+                case MatchSearchResult t2:
+                    thisOne = new MatchSearchResult(
+                        sr.SearchTerm,
+                        sr.Value,
+                        sr.TypeStr,
+                        sr.Type,
+                        null);
+                    break;
+
+                default:
+                    thisOne = new SearchResult(
+                        sr.SearchTerm,
+                        sr.Value,
+                        sr.TypeStr,
+                        sr.Type,
+                        sr.IsMatch,
+                        null);
+                    break;
+            }
 
             var results = new List<ISearchResult>() { thisOne };
 
@@ -32,6 +50,5 @@ namespace Websites.Razor.ClassLibrary.Abstractions.Extensions
 
             return results;
         }
-
     }
 }
