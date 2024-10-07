@@ -2,7 +2,7 @@
 {
     interface ICard
     {
-        string Name { get; }
+        string TypeStr { get; }
         IEnumerable<ICardModel> GetModels();
     }
 }

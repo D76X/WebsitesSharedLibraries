@@ -10,18 +10,18 @@ public abstract class CardBase :
 {
     private readonly SearchableBase _searchableBase;
 
-    protected CardBase(string name)
+    protected CardBase(string typeStr)
     {
-        Name = name;
+        TypeStr = typeStr;
         _searchableBase = new SearchableBase(
-            Name,
+            typeStr,
             () => GetModels().OfType<ISearchable>().ToArray());
         
     }
 
     public abstract IEnumerable<ICardModel> GetModels();
 
-    public string Name { get; protected set; }
+    public string TypeStr { get; protected set; }
     public ISearchable[]? Searchables => _searchableBase.Searchables;
     public ISearchResult GetResult(string searchTerm) => _searchableBase.GetResult(searchTerm);
 }
