@@ -42,9 +42,7 @@ namespace Websites.Razor.ClassLibrary.Services
 
         public ISearchResult GetResult(string searchTerm)
         {
-            // do I need this?
-            var searchResults1 = new List<ISearchResult>();
-
+            
             var searchResult = new SearchResult(
                 searchTerm,
                 this,
