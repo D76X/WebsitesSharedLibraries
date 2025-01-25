@@ -47,8 +47,7 @@ namespace Websites.Razor.ClassLibrary.Services
                 searchTerm,
                 this,
                 nameof(SearchService),
-                this.GetType(),
-                false); // can do better here!
+                this.GetType());
 
             foreach (var searchable in _searchables)
             {

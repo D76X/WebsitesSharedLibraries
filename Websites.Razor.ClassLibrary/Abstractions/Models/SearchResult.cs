@@ -10,7 +10,7 @@ public class NullSearchResult : SearchResult
         string typeStr,
         Type type,
         IEnumerable<ISearchResult>? searchResults = null)
-        : base(searchTerm, value, typeStr, type, false, searchResults) { }
+        : base(searchTerm, value, typeStr, type, searchResults) { }
 
 }
 
@@ -22,7 +22,7 @@ public class MatchSearchResult : SearchResult
         string typeStr,
         Type type,
         IEnumerable<ISearchResult>? searchResults = null)
-        : base(searchTerm, value, typeStr, type, true, searchResults) { }
+        : base(searchTerm, value, typeStr, type, searchResults) { }
 
 }
 
@@ -34,7 +34,7 @@ public class SearchResult : ISearchResult
     public object Value { get; }
     public string TypeStr { get; }
     public Type Type { get; }
-    public bool IsMatch { get; } = false;
+    public bool IsMatch => this is MatchSearchResult;
     public IEnumerable<ISearchResult> SearchResults => _searchResults;
 
     public static SearchResult NullResult(
@@ -67,14 +67,12 @@ public class SearchResult : ISearchResult
         object value,
         string typeStr,
         Type type,
-        bool isMatch,
         IEnumerable<ISearchResult>? searchResults = null)
     {
         SearchTerm = searchTerm;
         Value = value;
         TypeStr = typeStr;
         Type = type;
-        IsMatch = isMatch;
         searchResults?.ToList().ForEach(v => _searchResults.Add(v));
     }
 

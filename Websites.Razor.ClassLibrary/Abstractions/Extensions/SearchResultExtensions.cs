@@ -35,7 +35,6 @@ namespace Websites.Razor.ClassLibrary.Abstractions.Extensions
                         sr.Value,
                         sr.TypeStr,
                         sr.Type,
-                        sr.IsMatch,
                         null);
                     break;
             }
