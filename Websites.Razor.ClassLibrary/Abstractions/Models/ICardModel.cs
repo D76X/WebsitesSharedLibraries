@@ -6,4 +6,5 @@ public interface ICardModel
     string PageRef { get; }
     string PageTitle { get; }
     string PageText { get; }
+    string Language { get; }
 }

@@ -21,9 +21,9 @@ namespace Websites.Razor.ClassLibrary.Services
                 cardId,
                 _languageService.SelectedLanguage);
 
-        public IEnumerable<ICardModel> GetCards(IEnumerable<string> cardIds)
-        {
-            throw new NotImplementedException();
-        }
+        public IEnumerable<ICardModel> GetCards(IEnumerable<ITag> tags) =>
+            _cardCatalog.GetModels(
+                tags,
+                _languageService.SelectedLanguage);
     }
 }

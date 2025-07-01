@@ -1,10 +1,10 @@
 ﻿using Websites.Razor.ClassLibrary.Abstractions.Models;
 
-namespace Websites.Razor.ClassLibrary.Abstractions.Services
+namespace Websites.Razor.ClassLibrary.Abstractions.Services;
+
+public interface ICardCatalog
 {
-    public interface ICardCatalog
-    {
-        IEnumerable<ICardModel> GetModels();
-        ICardModel GetModel(string cardId, string? language);
-    }
+    IEnumerable<ICardModel> GetModels();
+    ICardModel[] GetModels(IEnumerable<ITag> tags, string? language);
+    ICardModel GetModel(string cardId, string? language);
 }

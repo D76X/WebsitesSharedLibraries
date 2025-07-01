@@ -2,5 +2,5 @@
 
 public interface ISeriesModel : IDisposable
 {
-    public ICardModel GetCard(string cardId);
+    public IEnumerable<ICardModel> GetCards(IEnumerable<ITag> tags);
 }
